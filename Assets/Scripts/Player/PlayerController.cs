@@ -5,15 +5,15 @@ public class PlayerController : MonoBehaviour
 {
     new CapsuleCollider collider;
     readonly int minHeartAmount = 0;
-    internal readonly int maxHeartAmount = 3;
-    internal int currentHeartAmount;
-    internal bool healable;
+    [HideInInspector] public readonly int maxHeartAmount = 3;
+    [HideInInspector] public int currentHeartAmount;
+    [HideInInspector] public bool healable;
     readonly float slideTimer = 1.2f;
     readonly Vector3[] lanes = new Vector3[3];
     int currentLane;
 
     void Awake() =>collider = GetComponent<CapsuleCollider>();
-    private void Start()
+    void Start()
     {
         currentHeartAmount = maxHeartAmount;
 
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
         lanes[2] = new Vector3(-2.5f, transform.position.y, transform.position.z);
         currentLane = 1;
     }
-    private void Update()
+    void Update()
     {
         Health();
     }
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.playerDead = true;
         }
     }
-    internal void MoveRight()
+    public void MoveRight()
     {
         if (currentLane > 0)
         {
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(MoveToLane(currentLane));
         }
     }
-    internal void MoveLeft()
+    public void MoveLeft()
     {
         if (currentLane < 2)
         {

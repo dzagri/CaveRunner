@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Barrier : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
             GameManager.instance.playerDamage = true;
             gameObject.SetActive(false);

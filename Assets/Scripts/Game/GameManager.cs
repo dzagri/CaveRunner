@@ -1,21 +1,21 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    internal int coins;
-    public int heartAmount;
-    internal float currentScore;
-    internal float highScore;
-    internal float scoreSpeed;
-    internal float scoreMultiplier;
-    internal float platformSpeed = 5;
-    internal bool playerDead;
-    public bool playerDamage;
-    public bool gameRestart;
+    [HideInInspector] public int coins;
+    [HideInInspector] public int currentCoins;
+    [HideInInspector] public int heartAmount;
+    [HideInInspector] public float currentScore;
+    [HideInInspector] public float highScore;
+    [HideInInspector] public float scoreSpeed;
+    [HideInInspector] public float scoreMultiplier;
+    [HideInInspector] public float platformSpeed = 5;
+    [HideInInspector] public bool playerDead;
+    [HideInInspector] public bool playerDamage;
+    [HideInInspector] public bool gameRestart;
     readonly float speedIncreaseInterval = 30f;
     readonly float scoreSpeedIncreaseAmount = 0.3f;
     float timeSinceLastIncrease = 0f;
@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         scoreSpeed = 0.4f;
         scoreMultiplier = 1.0f;
+        currentCoins = PlayerPrefs.GetInt("Coins", 0);
         if (instance == null)
         {
             instance = this;
@@ -69,6 +70,9 @@ public class GameManager : MonoBehaviour
         if (playerDead && currentState != GameState.paused)
         {
             currentState = GameState.paused;
+            currentCoins += coins;
+            PlayerPrefs.SetInt("Coins", currentCoins);
+            PlayerPrefs.Save();
             OnGameOver?.Invoke();
         }
         else if (!playerDead)
@@ -123,4 +127,20 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public bool TryPurchase(int cost)
+    {
+        if(currentCoins >= cost)
+        {
+            currentCoins -= cost;
+            PlayerPrefs.SetInt("Coins", currentCoins);
+            PlayerPrefs.Save();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }
