@@ -14,9 +14,20 @@ public class StartUIManager : MonoBehaviour
     bool musicActive;
     bool sfxActive;
     readonly float[] rgb = new float[3] { 1f, 1f, 1f};
+    bool IsColorPurchased(string key) => PlayerPrefs.GetInt(key, 0) == 1;
+
     void Start()
     {
+        Initialization();
+    }
+    #region Start
+    void Initialization()
+    {
         HighScore();
+        PlayerPrefs.SetFloat("FlashlightColorR", rgb[0]);
+        PlayerPrefs.SetFloat("FlashlightColorG", rgb[1]);
+        PlayerPrefs.SetFloat("FlashlightColorB", rgb[2]);
+        material.color = Color.red;
     }
 
     void HighScore()
@@ -24,6 +35,7 @@ public class StartUIManager : MonoBehaviour
         highScoretext.text = Mathf.FloorToInt(GameManager.instance.highScore).ToString();
         coinsText.text = Mathf.FloorToInt(GameManager.instance.currentCoins).ToString();
     }
+
     public void StartButton()
     {
         SceneManager.LoadScene(sceneBuildIndex: 1);
@@ -36,7 +48,9 @@ public class StartUIManager : MonoBehaviour
             Application.Quit();
         }
     }
+    #endregion
 
+    #region Settings
     public void TargetFPS(int amount)
     {
         Application.targetFrameRate = amount;
@@ -73,84 +87,76 @@ public class StartUIManager : MonoBehaviour
             sfxActive = true;
         }
     }
+    #endregion
 
+    #region Shop
     public void CartColor(int index)
     {
         int cost = 50;
-        if (GameManager.instance.TryPurchase(cost))
+        string purchaseKey = $"CartColor_{index}";
+
+        if (!IsColorPurchased(purchaseKey))
         {
-            switch (index)
-            {
-                case 0: material.color = Color.red; break;
-                case 1: material.color = Color.blue; break;
-                case 2: material.color = Color.green; break;
-                case 3: material.color = Color.yellow; break;
-                case 4: material.color = new(0.5f, 0f, 0.5f); break;
-                case 5: material.color = new(1f, 0.5f, 0f); break;
-                case 6: material.color = new(1f, 0.41f, 0.71f); break;
-                case 7: material.color = new(0f, 1f, 1f); break;
-                case 8: material.color = Color.black; break;
-            }
+            if (!GameManager.instance.TryPurchase(cost))
+                return;
+
+            SetColorPurchased(purchaseKey);
+            PlayerPrefs.Save();
             coinsText.text = GameManager.instance.currentCoins.ToString();
         }
+
+        Color selectedColor = index switch
+        {
+            0 => Color.red,
+            1 => Color.blue,
+            2 => Color.green,
+            3 => Color.yellow,
+            4 => new Color(0.5f, 0f, 0.5f),
+            5 => new Color(1f, 0.5f, 0f),
+            6 => new Color(1f, 0.41f, 0.71f),
+            7 => new Color(0f, 1f, 1f),
+            8 => Color.black,
+            _ => Color.white
+        };
+
+        material.color = selectedColor;
     }
 
     public void FlashlightColor(int index)
     {
         int cost = 25;
-        if(GameManager.instance.TryPurchase(cost))
+        string purchaseKey = $"FlashlightColor_{index}";
+
+        if (!IsColorPurchased(purchaseKey))
         {
-            switch(index)
-            {
-                case 0:
-                    rgb[0] = 1f;
-                    rgb[1] = 0f;
-                    rgb[2] = 0f;
-                    break;
-                case 1:
-                    rgb[0] = Color.blue.r;
-                    rgb[1] = Color.blue.g;
-                    rgb[2] = Color.blue.b;
-                    break;
-                case 2:
-                    rgb[0] = Color.green.r;
-                    rgb[1] = Color.green.g;
-                    rgb[2] = Color.green.b;
-                    break;
-                case 3:
-                    rgb[0] = Color.yellow.r;
-                    rgb[1] = Color.yellow.g;
-                    rgb[2] = Color.yellow.b;
-                    break;
-                case 4:
-                    rgb[0] = 0.5f;
-                    rgb[1] = 0f;
-                    rgb[2] = 0.5f;
-                    break;
-                case 5:
-                    rgb[0] = 1f;
-                    rgb[1] = 0.5f;
-                    rgb[2] = 0f;
-                    break;
-                case 6:
-                    rgb[0] = 1f;
-                    rgb[1] = 0.41f;
-                    rgb[2] = 0.71f;
-                    break;
-                case 7:
-                    rgb[0] = 0f;
-                    rgb[1] = 1f;
-                    rgb[2] = 1f;
-                    break;
-                case 8:
-                    rgb[0] = Color.white.r;
-                    rgb[1] = Color.white.g;
-                    rgb[2] = Color.white.b;
-                    break;
-            }
-            PlayerPrefs.SetFloat("FlashlightColorR", rgb[0]);
-            PlayerPrefs.SetFloat("FlashlightColorG", rgb[1]);
-            PlayerPrefs.SetFloat("FlashlightColorB", rgb[2]);
+            if (!GameManager.instance.TryPurchase(cost))
+                return;
+
+            SetColorPurchased(purchaseKey);
+            PlayerPrefs.Save();
+            coinsText.text = GameManager.instance.currentCoins.ToString();
         }
+
+        Color selectedColor = index switch
+        {
+            0 => Color.red,
+            1 => Color.blue,
+            2 => Color.green,
+            3 => Color.yellow,
+            4 => new Color(0.5f, 0f, 0.5f),
+            5 => new Color(1f, 0.5f, 0f),
+            6 => new Color(1f, 0.41f, 0.71f),
+            7 => new Color(0f, 1f, 1f),
+            8 => Color.white,
+            _ => Color.white
+        };
+
+        PlayerPrefs.SetFloat("FlashlightColorR", selectedColor.r);
+        PlayerPrefs.SetFloat("FlashlightColorG", selectedColor.g);
+        PlayerPrefs.SetFloat("FlashlightColorB", selectedColor.b);
+        PlayerPrefs.SetInt("FlashlightColorIndex", index);
+        PlayerPrefs.Save();
     }
+    void SetColorPurchased(string key) => PlayerPrefs.SetInt(key, 1);
+    #endregion
 }

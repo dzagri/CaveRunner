@@ -31,6 +31,11 @@ public class GameUIManager : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
+    public void PauseGame(bool pressed)
+    {
+
+    }
+
     void Hearts()
     {
         switch (GameManager.instance.heartAmount)

@@ -1,10 +1,13 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Collider), typeof(AudioSource))]
 public abstract class CollectibleBase : MonoBehaviour, ICollectible
 {
     float timer;
+    new AudioSource audio;
+
+    void Awake() => audio = GetComponent<AudioSource>();
     public abstract void Collect(ManageCollectibles manager);
 
     private void OnTriggerEnter(Collider other)
@@ -13,8 +16,9 @@ public abstract class CollectibleBase : MonoBehaviour, ICollectible
         {
             if (other.TryGetComponent<ManageCollectibles>(out var manager))
             {
+                audio.Play();
                 Collect(manager);
-                gameObject.SetActive(false);
+                StartCoroutine(DisableAfterAudio());
             }
         }
         if (CompareTag("Coin") && other.CompareTag("MagnetArea"))
@@ -25,6 +29,12 @@ public abstract class CollectibleBase : MonoBehaviour, ICollectible
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    IEnumerator DisableAfterAudio()
+    {
+        yield return new WaitForSeconds(audio.clip.length);
+        gameObject.SetActive(false);
     }
 
 }
