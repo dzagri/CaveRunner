@@ -1,13 +1,19 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 
 public class Barrier : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider collider)
+    new AudioSource audio;
+
+    void Awake() => audio = GetComponent<AudioSource>();
+    void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
         {
             GameManager.instance.playerDamage = true;
-            gameObject.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
+            audio.Play();
         }
     }
 }

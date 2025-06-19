@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     public static GameManager instance;
     [HideInInspector] public int coins;
     [HideInInspector] public int currentCoins;
@@ -21,12 +22,24 @@ public class GameManager : MonoBehaviour
     float timeSinceLastIncrease = 0f;
 
     public event Action OnGameOver;
-    private enum GameState
+    public bool TryPurchase(int cost)
     {
-        running,
-        paused
+        if(currentCoins >= cost)
+        {
+            currentCoins -= cost;
+            PlayerPrefs.SetInt("Coins", currentCoins);
+            PlayerPrefs.Save();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    private GameState currentState;
+
+    #endregion
+
+    #region Life Cycle
     void Awake()
     {
         scoreSpeed = 0.4f;
@@ -60,29 +73,9 @@ public class GameManager : MonoBehaviour
         AddScore();
     }
 
-    void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    #endregion 
 
-    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) => GameStart();
-    void StateManager()
-    {
-        if (playerDead && currentState != GameState.paused)
-        {
-            currentState = GameState.paused;
-            currentCoins += coins;
-            PlayerPrefs.SetInt("Coins", currentCoins);
-            PlayerPrefs.Save();
-            OnGameOver?.Invoke();
-        }
-        else if (!playerDead)
-        {
-            currentState = GameState.running;
-        }
-
-        GameStates();
-    }
-
+    #region Logic
     void SpeedIncrease()
     {
         if(SceneManager.GetActiveScene().buildIndex == 1)
@@ -101,19 +94,6 @@ public class GameManager : MonoBehaviour
             platformSpeed = 5;
         }
     }
-    void GameStates()
-    {
-        switch (currentState)
-        {
-            case GameState.running:
-                if (Time.timeScale != 1f) Time.timeScale = 1f;
-                SpeedIncrease();
-                break;
-            case GameState.paused:
-                if (Time.timeScale != 0f) Time.timeScale = 0f;
-                break;
-        }
-    }
     private void AddScore()
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -127,20 +107,51 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    #endregion
 
-    public bool TryPurchase(int cost)
+    #region Game State
+    private enum GameState
     {
-        if(currentCoins >= cost)
+        running,
+        paused
+    }
+    private GameState currentState;
+    void StateManager()
+    {
+        if (playerDead && currentState != GameState.paused)
         {
-            currentCoins -= cost;
+            currentState = GameState.paused;
+            currentCoins += coins;
             PlayerPrefs.SetInt("Coins", currentCoins);
             PlayerPrefs.Save();
-            return true;
+            OnGameOver?.Invoke();
         }
-        else
+        else if (!playerDead)
         {
-            return false;
+            currentState = GameState.running;
+        }
+
+        GameStates();
+    }
+    void GameStates()
+    {
+        switch (currentState)
+        {
+            case GameState.running:
+                if (Time.timeScale != 1f) Time.timeScale = 1f;
+                SpeedIncrease();
+                break;
+            case GameState.paused:
+                if (Time.timeScale != 0f) Time.timeScale = 0f;
+                break;
         }
     }
+    #endregion
 
+    #region Scene Management
+    void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+
+    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) => GameStart();
+    #endregion
 }

@@ -1,40 +1,48 @@
 using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(Collider), typeof(AudioSource))]
 public abstract class CollectibleBase : MonoBehaviour, ICollectible
 {
     float timer;
     new AudioSource audio;
+    Vector3 rotationSpeed = new(0, 90f, 0);
+
+    readonly float bobAmplitude = 2.7f;
+    readonly float bobFrequency = 2f;
 
     void Awake() => audio = GetComponent<AudioSource>();
     public abstract void Collect(ManageCollectibles manager);
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
+    {
+        Animate();
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            audio.Play();
             if (other.TryGetComponent<ManageCollectibles>(out var manager))
             {
-                audio.Play();
+                transform.GetChild(0).gameObject.SetActive(false);
                 Collect(manager);
-                StartCoroutine(DisableAfterAudio());
             }
-        }
-        if (CompareTag("Coin") && other.CompareTag("MagnetArea"))
-        {
-            timer = Time.time;
-            if(timer >= 2)
+            if (CompareTag("Coin"))
             {
-                gameObject.SetActive(false);
+                timer = Time.time;
+                if(timer <= 2)
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
-
-    IEnumerator DisableAfterAudio()
+    void Animate()
     {
-        yield return new WaitForSeconds(audio.clip.length);
-        gameObject.SetActive(false);
-    }
+        transform.Rotate(rotationSpeed * Time.deltaTime);
 
+        float newY = transform.position.y + Mathf.Sin(Time.time * bobFrequency * Mathf.PI * 2) * bobAmplitude * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+    }
 }

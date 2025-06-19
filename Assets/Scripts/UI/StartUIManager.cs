@@ -92,7 +92,7 @@ public class StartUIManager : MonoBehaviour
     #region Shop
     public void CartColor(int index)
     {
-        int cost = 50;
+        int cost = 250;
         string purchaseKey = $"CartColor_{index}";
 
         if (!IsColorPurchased(purchaseKey))
@@ -124,7 +124,7 @@ public class StartUIManager : MonoBehaviour
 
     public void FlashlightColor(int index)
     {
-        int cost = 25;
+        int cost = 125;
         string purchaseKey = $"FlashlightColor_{index}";
 
         if (!IsColorPurchased(purchaseKey))
