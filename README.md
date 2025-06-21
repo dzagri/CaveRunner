@@ -23,9 +23,9 @@ Endless runner cave exploration game made with Unity. Dodge obstacles, collect c
  🗂️ Project Structure
 
 └── 3D Models/
-              └── 2D Design/
-              └── Animations/
-              └── Materials/
+  └── 2D Design/
+  └── Animations/
+  └── Materials/
 └── Audio/
 └── Prefabs/
 └── Scenes/
