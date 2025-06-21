@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StartUIManager : MonoBehaviour
 {
+    #region Variables
     [SerializeField] TMP_Text highScoretext;
     [SerializeField] TMP_Text coinsText;
     [SerializeField] AudioMixer audioMixer;
@@ -15,12 +16,13 @@ public class StartUIManager : MonoBehaviour
     bool sfxActive;
     readonly float[] rgb = new float[3] { 1f, 1f, 1f};
     bool IsColorPurchased(string key) => PlayerPrefs.GetInt(key, 0) == 1;
+    #endregion
 
+    #region Start
     void Start()
     {
         Initialization();
     }
-    #region Start
     void Initialization()
     {
         HighScore();

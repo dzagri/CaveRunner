@@ -12,16 +12,16 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _EMISSION
+  - _GLOSSYREFLECTIONS_OFF
   - _NORMALMAP
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
-  m_EnableInstancingVariants: 1
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: _OcclusionMap _OcclusionStrength
+  m_LockedProperties: _OcclusionStrength
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -81,7 +81,7 @@ Material:
     - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.45
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _LightingEnabled: 0
     - _Metallic: 0
     - _Mode: 0
