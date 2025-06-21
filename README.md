@@ -7,8 +7,8 @@ Endless runner cave exploration game made with Unity. Dodge obstacles, collect c
 
  📸 Screenshots
 ![Gameplay Screenshot]()
-![WhatsApp Image 2025-06-21 at 19 03 35_7f1ffd17](https://github.com/user-attachments/assets/5550411a-62d3-4aef-a0a9-7f71b7343a20)
 ![WhatsApp Image 2025-06-21 at 19 03 39_2420022e](https://github.com/user-attachments/assets/55dc748b-a30c-4591-b25e-b69d30285d09)
+![WhatsApp Image 2025-06-21 at 19 03 35_7f1ffd17](https://github.com/user-attachments/assets/5550411a-62d3-4aef-a0a9-7f71b7343a20)
 
  
  🎮 Features
@@ -58,5 +58,5 @@ Endless runner cave exploration game made with Unity. Dodge obstacles, collect c
 
  📬 Contact
 For collaboration or feedback:
-- [**Portfolio**: https://your-carrd-url.com](https://dzagri.carrd.co)
+- https://your-carrd-url.com](https://dzagri.carrd.co)
 - zaali.unity@gmail.com
