@@ -11,7 +11,7 @@ Endless runner cave exploration game made with Unity. Dodge obstacles, collect c
 ![WhatsApp Image 2025-06-21 at 19 03 39_2420022e](https://github.com/user-attachments/assets/55dc748b-a30c-4591-b25e-b69d30285d09)
 
  
- 🎮 Features![Uploading WhatsApp Image 2025-06-21 at 19.03.39_acc178c0.jpg…]()
+ 🎮 Features
 
 - Procedural level generation
 - Collectible system with audio feedback
