@@ -46,7 +46,7 @@ public class PlatformManager : MonoBehaviour
             {
                 platformPool[randomIndex].SetActive(true);
                 platformPool[randomIndex].transform.position = spawnPosition;
-                foreach (Transform child in platformPool[randomIndex].GetComponentsInChildren<Transform>(true))
+                foreach (Transform child in platformPool[randomIndex].GetComponentsInChildren<Transform>())
                 {
                     child.gameObject.SetActive(true);
                 }

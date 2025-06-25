@@ -12,7 +12,7 @@ public class PlatformController : MonoBehaviour
             gameObject.SetActive(false);
             
             PlatformManager.instance.isAsked = true;
-        }
+        }   
     }
 
 }

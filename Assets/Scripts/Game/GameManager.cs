@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public float highScore;
     [HideInInspector] public float scoreSpeed;
     [HideInInspector] public float scoreMultiplier;
-    [HideInInspector] public float platformSpeed = 5;
+    [HideInInspector] public float platformSpeed = 10f;
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool playerDamage;
     [HideInInspector] public bool gameRestart;
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
+
 
     #region Game State
     private enum GameState

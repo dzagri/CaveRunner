@@ -128,7 +128,6 @@ public class StartUIManager : MonoBehaviour
     {
         int cost = 125;
         string purchaseKey = $"FlashlightColor_{index}";
-
         if (!IsColorPurchased(purchaseKey))
         {
             if (!GameManager.instance.TryPurchase(cost))

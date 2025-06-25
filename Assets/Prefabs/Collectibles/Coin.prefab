@@ -68,8 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bd586109ed2934999c0a91b92f369c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bobAmplitude: 13.35
-  bobFrequency: 2.72
   coinValue: 1
 --- !u!82 &-517671723647651972
 AudioSource:
